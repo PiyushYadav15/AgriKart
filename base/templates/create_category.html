@@ -1,0 +1,167 @@
+<style>
+  /* ========== ADD CROP CATEGORY PAGE ========== */
+.container {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  animation: fadeSlideUp 0.8s ease;
+  text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+  color: #3ca55c;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+.custom-form {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  animation: scaleIn 0.5s ease-in-out;
+}
+
+.custom-form input {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.custom-form input:focus {
+  border-color: #3ca55c;
+  outline: none;
+}
+
+.btn-submit {
+  padding: 0.75rem;
+  background: linear-gradient(to right, #3ca55c, #b5ac49);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.4s ease, transform 0.3s ease;
+}
+
+.btn-submit:hover {
+  background: linear-gradient(to right, #3ca55c, #70b347);
+  transform: scale(1.05);
+}
+
+.actions {
+  margin-top: 1rem;
+}
+
+.back-link {
+  color: #3ca55c;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  color: #70b347;
+}
+
+/* ========== TOAST ALERT STYLES ========== */
+#messages {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  animation: slideFadeIn 0.6s ease;
+}
+
+.alert {
+  padding: 1rem 2rem;
+  color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+  width: fit-content;
+  max-width: 90vw;
+  margin: 0 auto 1rem;
+  animation: popupBounce 0.6s ease-in-out;
+}
+
+.alert.success { background-color: #4caf50; }
+.alert.error { background-color: #f44336; }
+.alert.info { background-color: #2196f3; }
+.alert.warning { background-color: #ff9800; }
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translate(-50%, -30px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes popupBounce {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 600px) {
+  .custom-form {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  #messages {
+    width: 90%;
+    font-size: 0.95rem;
+  }
+}
+
+</style>
+
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="container">
+    <h2 class="title">🌿 Add Crop Category</h2>
+
+    {% if messages %}
+    <div id="messages">
+        {% for i in messages %}
+        <div class="alert {{ i.tags }}">{{ i }}</div>
+        {% endfor %}
+    </div>
+    <script>
+        setTimeout(function () {
+            document.getElementById("messages").style.display = "none";
+        }, 5000);
+    </script>
+    {% endif %}
+
+    <form method="POST" class="custom-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-submit">Submit</button>
+    </form>
+
+    <div class="actions">
+        <a href="{% url 'category_list' %}" class="back-link">← Back to List</a>
+    </div>
+</div>
+
+{% endblock %}

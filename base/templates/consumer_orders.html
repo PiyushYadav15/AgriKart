@@ -1,0 +1,129 @@
+<style>
+  /* ========== MY ORDERS PAGE (CONSUMER) ========== */
+.order-title {
+  text-align: center;
+  font-size: 2rem;
+  margin: 2rem 0;
+  color: #3ca55c;
+}
+
+.order-list {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.order-card {
+  background: #fff;
+  border-left: 6px solid #3ca55c;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  animation: fadeSlideUp 0.6s ease-in-out;
+  transition: transform 0.3s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-4px);
+}
+
+.order-card h3 {
+  font-size: 1.3rem;
+  color: #222;
+  margin-bottom: 0.8rem;
+}
+
+.order-card p {
+  margin: 0.4rem 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.order-status {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.no-orders {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #999;
+  margin-top: 2rem;
+}
+
+/* Animation */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Base status badge */
+.status-badge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+/* Specific status colors */
+.status-badge.pending {
+  background-color: #e74c3c;   /* Red */
+}
+
+.status-badge.packed {
+  background-color: #f39c12;   /* Orange */
+}
+
+.status-badge.delivered {
+  background-color: #2ecc71;   /* Green */
+}
+
+
+</style>
+
+{% extends 'main.html' %}
+{% block content %}
+
+<h2 class="order-title">📦 My Orders</h2>
+
+<div class="order-list">
+  {% for order in orders %}
+    <div class="order-card">
+      <h3>{{ order.crop.name }}</h3>
+      <p><strong>Quantity:</strong> {{ order.quantity_ordered }} kg</p>
+      <p><strong>Total Price:</strong> ₹{{ order.total_price }}</p>
+      <p><strong>Status:</strong> 
+         <span class="order-status {% if order.status == 'pending' %}pending
+                                  {% elif order.status == 'packed' %}packed
+                                  {% elif order.status == 'delivered' %}delivered
+                                  {% endif %}">
+           {{ order.status|title }}
+         </span>
+      </p>
+      <p><strong>Delivery Address:</strong> {{ order.delivery_address }}</p>
+      <p><strong>Time Slot:</strong> {{ order.time_slot }}</p>
+      <p><strong>Ordered At:</strong> {{ order.ordered_at|date:"d M Y, H:i" }}</p>
+    </div>
+    <p><strong>Status:</strong> 
+      <span class="status-badge {{ order.status|lower }}">{{ order.status }}</span>
+    </p>
+
+  {% empty %}
+    <p class="no-orders">You have no orders yet.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}
+

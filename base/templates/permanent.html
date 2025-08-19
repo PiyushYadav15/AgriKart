@@ -1,0 +1,94 @@
+<style>
+  /* ========== DELETE CONFIRMATION PAGE ========== */
+.delete-container {
+  max-width: 600px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  text-align: center;
+  animation: fadeSlideUp 0.6s ease;
+}
+
+.delete-title {
+  font-size: 1.6rem;
+  color: #d9534f;
+  margin-bottom: 2rem;
+}
+
+.delete-title .highlight {
+  font-weight: bold;
+  color: #b52a1f;
+}
+
+.delete-form {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-delete {
+  background: linear-gradient(to right, #ff4e50, #f44336);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.btn-delete:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #e53935, #d32f2f);
+}
+
+.btn-cancel {
+  background: #f5f5f5;
+  color: #555;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background: #e0e0e0;
+  transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+</style>
+
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="delete-container">
+  <h2 class="delete-title">
+    Are you sure you want to permanently delete <span class="highlight">“{{ data.title }}”</span>?
+  </h2>
+
+  <form method="POST" class="delete-form">
+    {% csrf_token %}
+    <button type="submit" class="btn-delete">🗑 Yes, Delete</button>
+    <a href="{% url 'crop_list' %}" class="btn-cancel">Cancel</a>
+  </form>
+</div>
+
+{% endblock %}

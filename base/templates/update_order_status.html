@@ -1,0 +1,146 @@
+<style>
+    /* ========== UPDATE ORDER STATUS PAGE ========== */
+.update-order-container {
+  max-width: 600px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  animation: fadeSlideUp 0.6s ease;
+}
+
+.update-order-container .title {
+  font-size: 1.8rem;
+  color: #3ca55c;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.order-info {
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-weight: bold;
+  background-color: #79b7e0;
+  color: #f45b77;
+  text-transform: capitalize;
+}
+
+.status-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.status-form label {
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.status-form select {
+  padding: 0.75rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+}
+
+.status-form select:focus {
+  outline: none;
+  border-color: #3ca55c;
+  box-shadow: 0 0 0 3px rgba(60, 165, 92, 0.1);
+}
+
+.btn-update {
+  background: linear-gradient(to right, #3ca55c, #b5ac49);
+  color: white;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-update:hover {
+  background: linear-gradient(to right, #3ca55c, #70b347);
+  transform: scale(1.05);
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 2rem;
+  text-decoration: none;
+  color: #3ca55c;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  color: #70b347;
+}
+
+/* Base status badge */
+.status-badge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+/* Specific status colors */
+.status-badge.pending {
+  background-color: #e74c3c;   /* Red */
+}
+
+.status-badge.packed {
+  background-color: #d6b379;   /* Orange */
+}
+
+.status-badge.delivered {
+  background-color: #2ecc71;   /* Green */
+}
+
+
+</style>
+
+
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="update-order-container">
+  <h2 class="title">📦 Update Order Status</h2>
+    
+  <div class="order-info">
+    <p><strong>Crop:</strong> {{ order.crop.name }}</p>
+    <p><strong>Current Status:</strong> <span class="status-badge">{{ order.status }}</span></p>
+  </div>
+   <p><strong>Status:</strong> 
+     <span class="status-badge {{ order.status|lower }}">{{ order.status }}</span>
+   </p>
+  <form method="POST" class="status-form">
+      {% csrf_token %}
+      <label for="status">Change Status:</label>
+      <select name="status" id="status">
+          <option value="pending" {% if order.status == 'pending' %}selected{% endif %}>Pending</option>
+          <option value="packed" {% if order.status == 'packed' %}selected{% endif %}>Packed</option>
+          <option value="delivered" {% if order.status == 'delivered' %}selected{% endif %}>Delivered</option>
+      </select>
+      <button type="submit" class="btn-update">Update</button>
+  </form>
+
+  <a href="{% url 'farmer_orders' %}" class="back-link">← Back to Orders</a>
+</div>
+
+{% endblock %}

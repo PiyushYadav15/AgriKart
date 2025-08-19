@@ -1,0 +1,83 @@
+<style>
+    /* ========== CONSUMER DETAILS PAGE ========== */
+.consumer-detail-container {
+  max-width: 700px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  animation: fadeSlideUp 0.6s ease-in-out;
+}
+
+.consumer-card p {
+  font-size: 1.05rem;
+  margin-bottom: 0.6rem;
+  color: #333;
+}
+
+.divider {
+  margin: 2rem 0;
+  border: none;
+  height: 1px;
+  background: #ddd;
+}
+
+.subtitle {
+  font-size: 1.4rem;
+  color: #3ca55c;
+  margin-bottom: 1rem;
+}
+
+.message-box {
+  background: #f9f9f9;
+  padding: 1.2rem;
+  border-left: 6px solid #3ca55c;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  color: #444;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 2rem;
+  text-decoration: none;
+  color: #3ca55c;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  color: #70b347;
+}
+
+/* Animation (if not already added) */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+</style>
+
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="consumer-detail-container">
+  <h2 class="title">👤 Consumer Details</h2>
+
+  <div class="consumer-card">
+    <p><strong>Name:</strong> {{ consumer.first_name }} {{ consumer.last_name }}</p>
+    <p><strong>Email:</strong> {{ consumer.email }}</p>
+    <p><strong>Phone:</strong> {{ consumer.phone_number }}</p>
+    <p><strong>Username:</strong> {{ consumer.username }}</p>
+  </div>
+
+  <hr class="divider">
+
+  <h3 class="subtitle">📩 Message</h3>
+  <p class="message-box">{{ notification.message }}</p>
+
+  <a href="{% url 'farmer_dashboard' %}" class="back-link">← Back to Dashboard</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends 'main.html' %}
+{% block content %}
+  <h2>👨‍🌾 Farmer Dashboard</h2>
+  <p>Welcome, {{ request.user.username }}</p>
+  <a href="{% url 'add_crop' %}">Add Crop</a>
+{% endblock %}

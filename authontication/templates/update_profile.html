@@ -1,0 +1,189 @@
+<style>
+    /* ========== UPDATE PROFILE PAGE ========== */
+.update-profile-container {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  animation: fadeSlideUp 0.8s ease-out;
+  text-align: center;
+}
+
+.update-profile-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #3ca55c;
+  margin-bottom: 1.5rem;
+}
+
+.update-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  animation: scaleIn 0.5s ease-in-out;
+}
+
+.update-profile-form input {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.update-profile-form input:focus {
+  border-color: #3ca55c;
+  outline: none;
+}
+
+.submit-button {
+  padding: 0.75rem;
+  background: linear-gradient(to right, #3ca55c, #b5ac49);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.4s ease, transform 0.3s ease;
+}
+
+.submit-button:hover {
+  background: linear-gradient(to right, #3ca55c, #70b347);
+  transform: scale(1.05);
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #3ca55c;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  color: #70b347;
+}
+
+/* ========== TOAST MESSAGE ========== */
+#messages {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  animation: slideFadeIn 0.6s ease;
+}
+
+.alert {
+  color: white;
+  padding: 1rem 2rem;
+  margin: 10px auto;
+  border-radius: 8px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  animation: popupBounce 0.6s ease-in-out;
+  font-weight: 500;
+  width: fit-content;
+  max-width: 90vw;
+  text-align: center;
+}
+
+/* Add message types if using Django message tags */
+.alert.success { background-color: #4caf50; }
+.alert.error   { background-color: #f44336; }
+.alert.info    { background-color: #2196f3; }
+.alert.warning { background-color: #ff9800; }
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -30px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes popupBounce {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  60% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 600px) {
+  .update-profile-form {
+    padding: 1.5rem;
+  }
+
+  #messages {
+    width: 90%;
+    font-size: 0.95rem;
+  }
+}
+
+</style>
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="update-profile-container">
+    <h2 class="update-profile-heading">Update Profile</h2>
+    <div id="messages">
+      {% if messages %}
+          {% for i in messages %}
+              <div class="alert">{{ i }}</div>
+          {% endfor %}
+      {% endif %}
+  </div>
+    <form method="POST" class="update-profile-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="submit-button">Submit</button>
+    </form>
+    <a href="{% url 'profile' %}" class="back-link">Back</a>
+
+    <script>
+      setTimeout(function(){
+          document.getElementById('messages').style.display='none';
+      }, 5000);
+  </script>
+
+</div>
+
+{% endblock %}
+

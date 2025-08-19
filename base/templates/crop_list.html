@@ -1,0 +1,249 @@
+
+<style>
+/* 🌾 Crop List Page Styling */
+/* ======= CROPS PAGE (MODERNIZED) ======= */
+.crop-list-container {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 1rem 2rem;
+  animation: fadeSlideUp 0.7s ease;
+}
+
+/* Header Title */
+.crop-list-container h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: #3ca55c;
+}
+
+/* Action Buttons */
+.top-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+.top-actions .btn {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  background: linear-gradient(to right, #3ca55c, #70b347);
+  color: white;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.top-actions .btn:hover {
+  background: linear-gradient(to right, #70b347, #3ca55c);
+  transform: scale(1.05);
+}
+
+/* Filter Dropdown */
+form select {
+  display: block;
+  margin: 0 auto;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  background-color: #f3f4f6;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+form select:focus {
+  border-color: #3ca55c;
+}
+
+/* Grid layout for crop cards */
+.crop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  /* Adjust min size as needed */
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+/* Individual crop card */
+.crop-card {
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  position: relative;
+  text-align: center;
+}
+
+.crop-card:hover {
+  transform: translateY(-5px);
+}
+
+.crop-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.btn.edit {
+  background: linear-gradient(to right, #3ca55c, #b5ac49);
+}
+
+.btn.delete {
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* No crops message */
+.no-crops {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888;
+}
+/* Animation */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .top-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+</style>
+
+
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="crop-list-container">
+  <h2 class="text-2xl font-bold mb-6">🌾 My Crops</h2>
+    <div class="top-actions">
+        <a href="{% url 'add_crop' %}" class="btn">➕ Add Crop</a>
+        <a href="{% url 'crop_history' %}" class="btn">🕒 Crop History</a>
+    </div>
+
+<!-- Category Filter Dropdown -->
+<form method="GET" class="mb-4">
+  <select name="category_id" onchange="this.form.submit()" class="p-2 rounded bg-gray-100">
+    <option value="">All Categories</option>
+    {% for cat in categories %}
+      <option value="{{ cat.id }}" {% if cat.id|stringformat:"s" == request.GET.category_id %}selected{% endif %}>
+        {{ cat.name }}
+      </option>
+    {% endfor %}
+  </select>
+</form>
+
+<!-- Crop Cards Grid -->
+<div class="crop-grid">
+  {% if crops %}
+    {% for crop in crops %}
+      <div class="crop-card">
+        <img src="{{ crop.image.url }}" alt="{{ crop.name }}" class="crop-image">
+        <h3 class="text-lg font-semibold text-green-700 dark:text-green-400">{{ crop.name }}</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Category: {{ crop.category.name }}</p>
+        <p class="text-md text-gray-800 mt-2 dark:text-gray-300">Price: ₹{{ crop.price }}</p>
+
+        <!-- Action Buttons -->
+        <div class="btn-group">
+          <a href="{% url 'crop_update' crop.id %}" class="btn edit">✏️ Edit</a>
+          <a href="{% url 'crop_delete' crop.id %}" class="btn delete"
+             onclick="return confirm('Are you sure you want to delete this crop?');">🗑️ Delete</a>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="no-crops col-span-3">🚫 No crops available in this category.</div>
+  {% endif %}
+</div>
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+<!-- 
+
+<h2>Crops List </h2>
+
+<a href="{% url 'add_crop' %}">Add CROPS</a>
+<a href="{% url 'crop_history' %}">Crops History</a>
+
+<form method="GET">
+    <select name="category_id" onchange="this.form.submit()">
+        <option value="">All Category</option>
+        {% for i in data %}
+            <option value="{{ i.id }}"{% if i.id|stringformat:"s" == request.GET.category_id %} selected{% endif %}>{{ i.name }}</option>
+        {% endfor %}
+    </select>
+</form>
+
+<ul>
+  {% for i in data1 %}
+    {% if not i.is_deleted %}
+      <li>
+       <div style="border: 1px solid #ccc; padding: 15px; width: 250px; border-radius: 10px;">
+      <img src="{{ i.image.url }}" alt="{{ i.name }}" width="200"><br>
+      <h3>{{ i.name }}</h3>
+      <p>Price: ₹{{ i.price_per_kg }}/kg</p>
+      <a href="{% url 'place_order' i.id %}">
+        <button style="padding: 8px 12px;">Order Now</button>
+      </a>
+        <a href="{% url 'crop_update' i.id %}">Update_Crops</a> 
+        <a href="{% url 'crop_delete' i.id  %}">Delete_Crops</a>
+    </div>
+
+      </li>
+    {% endif %}
+    {% empty %}
+    <p><strong> No Crops listed </strong></p>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'category_list' %}">Back</a> -->
+
+
+

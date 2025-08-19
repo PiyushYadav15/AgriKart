@@ -1,0 +1,100 @@
+
+<style>
+  /* ========== ORDERS TO DELIVER ========== */
+.orders-container {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 1rem;
+  animation: fadeSlideUp 0.7s ease-in-out;
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  color: #3ca55c;
+  margin-bottom: 2rem;
+}
+
+.order-card {
+  background: #fff;
+  border-left: 6px solid #3ca55c;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-4px);
+}
+
+.order-card p {
+  margin: 0.4rem 0;
+  font-size: 1rem;
+  color: #444;
+}
+
+.status {
+  font-weight: bold;
+  color: #b5ac49;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1.2rem;
+  background: linear-gradient(to right, #3ca55c, #b5ac49);
+  color: #fff;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+  background: linear-gradient(to right, #3ca55c, #70b347);
+  transform: scale(1.05);
+}
+
+.no-orders {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888;
+  margin-top: 2rem;
+}
+
+/* Fade-in animation */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+</style>
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="orders-container">
+  <h2 class="title">🚚 Orders to Deliver</h2>
+
+  {% for order in orders %}
+    <div class="order-card">
+      <p><strong>Crop:</strong> {{ order.crop.name }}</p>
+      <p><strong>Quantity:</strong> {{ order.quantity_ordered }} kg</p>
+      <p><strong>Address:</strong> {{ order.delivery_address }}</p>
+      <p><strong>Time Slot:</strong> {{ order.time_slot }}</p>
+      <p><strong>Status:</strong> <span class="status">{{ order.status }}</span></p>
+      <a href="{% url 'update_order_status' order.id %}" class="btn">Update Status</a>
+    </div>
+  {% empty %}
+    <p class="no-orders">No active delivery orders.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}

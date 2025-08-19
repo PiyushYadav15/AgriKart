@@ -1,0 +1,98 @@
+<style>
+    /* ========== RESTORE CROP PAGE ========== */
+.restore-container {
+  max-width: 600px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+  text-align: center;
+  animation: fadeSlideUp 0.6s ease-in-out;
+}
+
+.restore-title {
+  font-size: 1.7rem;
+  color: #3ca55c;
+  margin-bottom: 1.5rem;
+}
+
+.restore-title .highlight {
+  color: #b5ac49;
+  font-weight: bold;
+}
+
+.restore-image {
+  width: 200px;
+  height: auto;
+  border-radius: 12px;
+  margin: 1rem 0 2rem;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.restore-form {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-restore {
+  background: linear-gradient(to right, #3ca55c, #b5ac49);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.btn-restore:hover {
+  background: linear-gradient(to right, #3ca55c, #70b347);
+  transform: scale(1.05);
+}
+
+.btn-cancel {
+  background: #f5f5f5;
+  color: #444;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background: #e0e0e0;
+  transform: scale(1.05);
+}
+
+/* Animation (if not already included) */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+</style>
+
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="restore-container">
+  <h2 class="restore-title">
+    ♻️ Restore Crop: <span class="highlight">“{{ data.title }}”</span>?
+  </h2>
+
+  <img src="{{ data.image.url }}" alt="{{ data.title }}" class="restore-image">
+
+  <form method="POST" class="restore-form">
+    {% csrf_token %}
+    <button type="submit" class="btn-restore">✅ Yes, Restore</button>
+    <a href="{% url 'crop_history' %}" class="btn-cancel">Cancel</a>
+  </form>
+</div>
+
+{% endblock %}

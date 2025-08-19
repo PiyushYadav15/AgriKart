@@ -1,0 +1,87 @@
+<style>
+  /* ========== CATEGORY LIST PAGE ========== */
+.title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #3ca55c;
+  margin-top: 2rem;
+  animation: fadeSlideUp 0.6s ease;
+}
+
+.category-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  max-width: 1000px;
+}
+
+.category-card {
+  background: linear-gradient(to right, #b5ac49, #3ca55c);
+  color: white;
+  padding: 1.2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 23px;
+  text-align: center;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
+.category-card.empty {
+  background: #f44336;
+  font-weight: bold;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(to right, #3ca55c, #b5ac49);
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.4s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+  background: linear-gradient(to right, #3ca55c, #70b347);
+  transform: scale(1.05);
+}
+
+</style>
+
+{% extends 'main.html' %}
+{% block content %}
+
+<h2 class="title">🌱 Crop Category List</h2>
+
+<div class="category-list">
+  {% for i in data %}
+    <div class="category-card animate__animated animate__fadeInUp">
+      {{ i.name }}
+    </div>
+  {% empty %}
+    <div class="category-card empty">No categories available.</div>
+  {% endfor %}
+</div>
+
+<div class="btn-group">
+  <a href="{% url 'create_category' %}" class="btn">➕ Add New Category</a>
+  <a href="{% url 'add_crop' %}" class="btn">🌾 Add Crops</a>
+</div>
+
+{% endblock %}

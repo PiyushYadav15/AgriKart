@@ -1,0 +1,124 @@
+<style>
+    /* ========== ORDER CROP PAGE ========== */
+.order-crop-container {
+  max-width: 600px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  text-align: center;
+  animation: fadeSlideUp 0.6s ease-in-out;
+}
+
+.order-crop-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #3ca55c;
+}
+
+.order-crop-title span {
+  color: #b5ac49;
+  font-weight: 600;
+}
+
+.crop-image {
+  width: 200px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.crop-image:hover {
+  transform: scale(1.05);
+}
+
+.order-crop-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.order-crop-form input,
+.order-crop-form textarea,
+.order-crop-form select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border 0.3s ease;
+}
+
+.order-crop-form input:focus,
+.order-crop-form textarea:focus,
+.order-crop-form select:focus {
+  border-color: #3ca55c;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(60, 165, 92, 0.1);
+}
+
+.btn-order {
+  background: linear-gradient(to right, #3ca55c, #b5ac49);
+  color: white;
+  padding: 0.8rem 1.6rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.btn-order:hover {
+  background: linear-gradient(to right, #3ca55c, #70b347);
+  transform: scale(1.05);
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 2rem;
+  text-decoration: none;
+  color: #3ca55c;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  color: #70b347;
+}
+
+/* Animation */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+</style>
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="order-crop-container">
+  <h2 class="order-crop-title">🛒 Order Crop: <span>{{ data.name }}</span></h2>
+
+  <img src="{{ data.image.url }}" alt="{{ data.name }}" class="crop-image">
+
+  <form method="POST" class="order-crop-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-order">Place Order</button>
+  </form>
+
+  <a href="{% url 'crop_list' %}" class="back-link">← Back to Crops</a>
+</div>
+
+{% endblock %}

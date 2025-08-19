@@ -1,0 +1,94 @@
+<style>
+    /* ========== ORDER DETAIL ========== */
+.order-detail-container {
+  max-width: 700px;
+  margin: 3rem auto;
+  padding: 2rem;
+  animation: fadeSlideUp 0.6s ease;
+  text-align: center;
+}
+
+.order-detail-title {
+  font-size: 2rem;
+  color: #3ca55c;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+.order-detail-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.8rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  text-align: left;
+  font-size: 1.05rem;
+  animation: fadeInScale 0.4s ease-in-out;
+}
+
+.order-detail-card p {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.status {
+  font-weight: bold;
+  color: #b5ac49;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 1.8rem;
+  text-decoration: none;
+  color: #3ca55c;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  color: #70b347;
+}
+
+/* Animations */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+</style>
+
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="order-detail-container">
+  <h2 class="order-detail-title">📄 Order Detail</h2>
+
+  <div class="order-detail-card">
+    <p><strong>Crop:</strong> {{ order.crop.name }}</p>
+    <p><strong>Quantity:</strong> {{ order.quantity_ordered }} kg</p>
+    <p><strong>Total Price:</strong> ₹{{ order.total_price }}</p>
+    <p><strong>Status:</strong> <span class="status">{{ order.status }}</span></p>
+    <p><strong>Consumer:</strong> {{ order.consumer.first_name }} ({{ order.consumer.username }})</p>
+    <p><strong>Delivery Address:</strong> {{ order.delivery_address }}</p>
+  </div>
+
+  <a href="{% url 'farmer_orders' %}" class="back-link">← Back to All Orders</a>
+</div>
+
+{% endblock %}

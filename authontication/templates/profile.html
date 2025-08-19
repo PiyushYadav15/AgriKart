@@ -1,0 +1,162 @@
+<style>
+    /* ========== PROFILE PAGE ========== */
+.profile-container {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 2rem;
+  text-align: center;
+  animation: fadeSlideUp 0.8s ease-out;
+}
+
+.title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #3ca55c;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+  animation: scaleIn 0.5s ease-in-out;
+}
+
+.profile-card {
+  background: linear-gradient(to bottom right, #ffffff, #f5f5f5);
+  border-radius: 16px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
+}
+
+.profile-card h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 1rem 0;
+  transition: color 0.3s;
+}
+
+.profile-card h3 span {
+  color: #3ca55c;
+  font-weight: 600;
+}
+
+/* Buttons */
+.btn-group {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(to right, #3ca55c, #b5ac49);
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background 0.4s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+  background: linear-gradient(to right, #3ca55c, #70b347);
+  transform: scale(1.05);
+}
+
+/* Message Container */
+#messages {
+  position: fixed;
+  top: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: auto;
+  max-width: 95%;
+  animation: slideDown 0.5s ease-in-out;
+}
+
+/* Individual Alert */
+.alert {
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  background-color: #0ac335; /* light green background */
+  color: #155724; /* dark green text */
+  border: 1px solid #08c333;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .btn-group {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+</style>
+<!-- =========================================================================== -->
+{% extends 'main.html' %}
+{% block content %}
+<div class="profile-container">
+    <h2 class="title">Profile Page</h2>
+    {% if messages %}
+    <div id="messages">
+        {% for i in messages %}
+        <div class="alert {{ i.tags }}">{{ i }}</div>
+        {% endfor %}
+    </div>
+    <script>
+        setTimeout(function () {
+            document.getElementById("messages").style.display = "none";
+        }, 5000);
+    </script>
+    {% endif %}
+
+    <div class="profile-card">
+        <h3><span>Full Name:</span> {{request.user.first_name}} {{request.user.last_name}}</h3>
+        <h3><span>Email:</span> {{request.user.email}}</h3>
+        <h3><span>Username:</span> {{request.user.username}}</h3>
+
+        <div class="btn-group">
+            <a href="{% url 'update_password' %}" class="btn">Update Password</a>
+            <a href="{% url 'update_profile' %}" class="btn">Update Profile</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

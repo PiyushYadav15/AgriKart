@@ -1,0 +1,160 @@
+
+<style>
+/* ========== FARMER ORDER TABLE STYLES ========== */
+.orders-wrapper {
+  padding: 2rem;
+  max-width: 98%;
+  margin: auto;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #3ca55c;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.styled-table thead {
+  background: linear-gradient(to right, #3ca55c, #b5ac49);
+  color: white;
+  font-weight: bold;
+}
+
+.styled-table th, .styled-table td {
+  padding: 0.9rem 1.2rem;
+  text-align: center;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.styled-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.btn {
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: white;
+  background-color: #3ca55c;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #2c974b;
+  transform: scale(1.05);
+}
+
+/* ========== STATUS BADGE COLORS ========== */
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  text-transform: capitalize;
+  color: white;
+  display: inline-block;
+  min-width: 80px;
+  transition: background-color 0.3s ease;
+}
+
+.status-badge.pending {
+  background-color: #e74c3c; /* red */
+}
+
+.status-badge.packed {
+  background-color: #f39c12; /* orange */
+}
+
+.status-badge.delivered {
+  background-color: #2ecc71; /* green */
+}
+
+/* ========== OTHER ========== */
+.no-orders {
+  text-align: center;
+  color: #999;
+  font-size: 1rem;
+  margin-top: 2rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: #3ca55c;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  color: #70b347;
+}
+
+</style>
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="orders-wrapper">
+  <h2 class="title">📦 My Crop Orders</h2>
+
+  {% if orders %}
+    <div class="table-responsive">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Crop</th>
+            <th>Consumer Name</th>
+            <th>Username</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th>Delivery Address</th>
+            <th>Status</th>
+            <th>Ordered On</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+            <tr>
+              <td>{{ order.crop.name }}</td>
+              <td>{{ order.consumer.first_name }} {{ order.consumer.last_name }}</td>
+              <td>{{ order.consumer.username }}</td>
+              <td>{{ order.quantity_ordered }} kg</td>
+              <td>₹{{ order.total_price }}</td>
+              <td>{{ order.delivery_address }}</td>
+              <td>
+                <span class="status-badge {{ order.status|lower }}">{{ order.status }}</span>
+              </td>
+              <td>{{ order.id|date:"d M Y" }}</td>
+              <td>
+                <a href="{% url 'update_order_status' order.id %}" class="btn btn-primary btn-sm">Update</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="no-orders">No orders placed yet.</p>
+  {% endif %}
+
+  <a href="{% url 'crop_list' %}" class="back-link">← Back to Crop List</a>
+</div>
+
+{% endblock %}
+

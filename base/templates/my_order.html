@@ -1,0 +1,120 @@
+<style>
+    /* ========== PLACE ORDER PAGE ========== */
+.order-container {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  animation: fadeSlideUp 0.6s ease-in-out;
+  text-align: center;
+}
+
+.order-title {
+  font-size: 1.8rem;
+  color: #3ca55c;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.order-title span {
+  color: #b5ac49;
+}
+
+.order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  animation: fadeInScale 0.4s ease-in-out;
+}
+
+.order-form input,
+.order-form textarea,
+.order-form select {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border 0.3s ease;
+}
+
+.order-form input:focus,
+.order-form textarea:focus,
+.order-form select:focus {
+  border-color: #3ca55c;
+  box-shadow: 0 0 0 3px rgba(60, 165, 92, 0.1);
+  outline: none;
+}
+
+.order-button {
+  padding: 0.75rem;
+  background: linear-gradient(to right, #3ca55c, #b5ac49);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: transform 0.3s ease, background 0.3s ease;
+  cursor: pointer;
+}
+
+.order-button:hover {
+  background: linear-gradient(to right, #3ca55c, #70b347);
+  transform: scale(1.05);
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  text-decoration: none;
+  color: #3ca55c;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  color: #70b347;
+}
+
+/* Animations */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+</style>
+
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="order-container">
+  <h2 class="order-title">🛒 Place Order for <span>{{ crop.name }}</span></h2>
+
+  <form method="POST" class="order-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="order-button">✅ Confirm Order</button>
+  </form>
+
+  <a href="{% url 'crop_list' %}" class="back-link">← Back to Crop List</a>
+</div>
+
+{% endblock %}

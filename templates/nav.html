@@ -1,0 +1,33 @@
+<nav data-aos="fade-down" class="animate__animated animate__fadeInDown">
+  <div class="main">
+    <div class="logo">AgriKart</div>
+    <div class="menu">
+      {% if request.user.is_authenticated %}
+        {% if request.user.is_farmer %}
+          <a href="{% url 'add_crop' %}" class="hvr-underline-from-left">Add Crop</a>
+          <a href="{% url 'create_category' %}" class="hvr-underline-from-left">Create Category</a>
+          <a href="{% url 'crop_list' %}" class="hvr-underline-from-left">Crop List</a>
+          <a href="{% url 'farmer_dashboard' %}" class="hvr-underline-from-left">Dashboard</a>
+          <a href="{% url 'farmer_orders' %}" class="hvr-underline-from-left">My Orders</a>
+
+          <a href="{% url 'profile' %}" class="hvr-underline-from-left">Profile</a>
+          <a href="{% url 'signout' %}" class="hvr-underline-from-left">Logout</a>
+        {% elif request.user.is_consumer %}
+          <a href="{% url 'consumer_crop_list' %}" class="hvr-underline-from-left">Shop Crops</a>
+
+          <a href="{% url 'order_success' %}" class="hvr-underline-from-left">Place Order</a>
+          <a href="{% url 'consumer_orders' %}" class="hvr-underline-from-left">My Orders</a>
+          <a href="{% url 'profile' %}" class="hvr-underline-from-left">Profile</a>
+          <a href="{% url 'signout' %}" class="hvr-underline-from-left">Logout</a>
+        {% endif %}
+      {% else %}
+        <a href="{% url 'signup' %}" class="hvr-underline-from-left">Register</a>
+        <a href="{% url 'signin' %}" class="hvr-underline-from-left">Login</a>
+      {% endif %}
+
+    </div>
+
+  </div>
+</nav>
+
+

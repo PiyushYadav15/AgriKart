@@ -1,0 +1,121 @@
+<style>
+    /* ========== UPDATE CROP PAGE ========== */
+.update-crop-container {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  animation: fadeSlideUp 0.7s ease-in-out;
+  text-align: center;
+  transform: translateY(0);
+}
+
+.update-crop-container .title {
+  font-size: 2rem;
+  color: #3ca55c;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.custom-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  animation: fadeInScale 0.6s ease-in-out;
+}
+
+.custom-form input,
+.custom-form textarea,
+.custom-form select {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: all 0.3s ease;
+}
+
+.custom-form input:focus,
+.custom-form textarea:focus,
+.custom-form select:focus {
+  border-color: #3ca55c;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(60, 165, 92, 0.2);
+}
+
+.btn-submit {
+  background: linear-gradient(to right, #3ca55c, #b5ac49);
+  color: white;
+  padding: 0.75rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btn-submit:hover {
+  background: linear-gradient(to right, #3ca55c, #70b347);
+  transform: scale(1.05);
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: #3ca55c;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  color: #70b347;
+}
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+</style>
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="update-crop-container">
+  <h2 class="title">✏️ Update Crop</h2>
+
+  <form method="POST" enctype="multipart/form-data" class="custom-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-submit">Update</button>
+  </form>
+
+  <a href="{% url 'crop_list' %}" class="back-link">← Back to Crop List</a>
+</div>
+
+{% endblock %}

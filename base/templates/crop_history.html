@@ -1,0 +1,134 @@
+<style>
+  /* ========== DESTINATIONS HISTORY ========== */
+.history-container {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 1rem;
+  animation: fadeSlideUp 0.7s ease;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.history-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  gap: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.history-card:hover {
+  transform: translateY(-5px);
+}
+
+.history-image {
+  width: 100px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.history-details p {
+  margin: 0.2rem 0;
+  font-size: 1rem;
+  color: #444;
+}
+
+.btn-group {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  color: white;
+  transition: transform 0.2s ease;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btn.restore {
+  background: linear-gradient(to right, #3ca55c, #b5ac49);
+}
+
+.btn.delete {
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: #3ca55c;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  color: #70b347;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 600px) {
+  .history-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .history-image {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+</style>
+
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="history-container">
+  <h2 class="title">🕒 Crop History</h2>
+
+  <a href="{% url 'crop_list' %}" class="back-link">← Back to Crop List</a>
+
+  <div class="history-list">
+    {% for i in data %}
+      <div class="history-card animate__animated animate__fadeInUp">
+        <img src="{{ i.image.url }}" alt="{{ i.title }}" class="history-image">
+        <div class="history-details">
+          <p><strong>{{ i.title }}</strong></p>
+          <p>🗑️ Deleted at: {{ i.deleted_at }}</p>
+          <div class="btn-group">
+            <a href="{% url 'restore' i.id %}" class="btn restore">🔄 Restore</a>
+            <a href="{% url 'permanent' i.id %}" class="btn delete">❌ Delete Permanently</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>No deleted crops available.</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

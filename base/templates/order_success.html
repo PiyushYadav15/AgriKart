@@ -1,0 +1,73 @@
+<style>
+    /* ========== ORDER SUCCESS PAGE ========== */
+.order-success-container {
+  max-width: 600px;
+  margin: 5rem auto;
+  padding: 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, #f6fff8, #ffffff);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  animation: fadeSlideUp 0.8s ease-in-out;
+}
+
+.success-icon {
+  font-size: 3rem;
+  animation: popScale 0.6s ease-in-out forwards;
+  margin-bottom: 1rem;
+  color: #3ca55c;
+}
+
+.success-title {
+  font-size: 1.8rem;
+  color: #3ca55c;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.success-message {
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 2rem;
+}
+
+.success-button {
+  display: inline-block;
+  background: linear-gradient(to right, #3ca55c, #b5ac49);
+  color: white;
+  padding: 0.8rem 1.6rem;
+  border-radius: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.success-button:hover {
+  background: linear-gradient(to right, #3ca55c, #70b347);
+  transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes popScale {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeSlideUp {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+</style>
+
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="order-success-container">
+  <div class="success-icon">✅</div>
+  <h2 class="success-title">Order Placed Successfully!</h2>
+  <p class="success-message">Your order has been placed. We will contact you soon for delivery.</p>
+  <a href="{% url 'unauthorized' %}" class="success-button">← Back to Crop List</a>
+</div>
+
+{% endblock %}

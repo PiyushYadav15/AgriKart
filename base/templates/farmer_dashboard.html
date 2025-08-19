@@ -1,0 +1,184 @@
+<style>
+    /* ========== DASHBOARD ========== */
+.dashboard-container {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 1.5rem;
+  animation: fadeSlideUp 0.8s ease;
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  text-align: center;
+  color: #3ca55c;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+.card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card-title {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #3ca55c;
+  font-weight: 600;
+}
+
+/* ========== Notifications ========== */
+.notification-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.notification-item {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #eee;
+  color: #444;
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+.notification-item.unread {
+  background: rgba(60, 165, 92, 0.07);
+  border-left: 4px solid #3ca55c;
+  padding-left: 0.8rem;
+  border-radius: 6px;
+}
+
+.notification-time {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.notif-link {
+  color: #3ca55c;
+  margin-left: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.notif-link:hover {
+  text-decoration: underline;
+}
+
+/* ========== Crops Listed ========== */
+.crop-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.crop-item {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #eee;
+  color: #333;
+  font-size: 1rem;
+}
+
+.listed-date {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+/* ========== Utility ========== */
+.mt-4 {
+  margin-top: 2rem;
+}
+
+.empty {
+  color: #777;
+  font-style: italic;
+  text-align: center;
+}
+
+/* ========== Animations ========== */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: fadeSlideUp 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+</style>
+
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="dashboard-container">
+  <h2 class="dashboard-title">🌾 Farmer Dashboard</h2>
+
+  <!-- Farmer Info -->
+  <div class="card animate-slide-up">
+    <h3 class="card-title">👤 Welcome, {{ request.user.first_name }} {{ request.user.last_name }}</h3>
+    <p><strong>Username:</strong> {{ request.user.username }}</p>
+    <p><strong>Email:</strong> {{ request.user.email }}</p>
+    <p><strong>Phone:</strong> {{ request.user.phone_number }}</p>
+  </div>
+
+  <!-- Notifications -->
+  <div class="card mt-4 animate-fade-in">
+    <h3 class="card-title">📢 Notifications</h3>
+    {% if notifications %}
+      <ul class="notification-list">
+        {% for n in notifications %}
+          <li class="notification-item {% if not n.is_read %}unread{% endif %}">
+            <span class="notification-time">{{ n.created_at|date:"Y-m-d H:i" }}</span> - 
+            {{ n.message }}
+            {% if n.link %}
+              <a href="{% url 'farmer_orders' %}" class="notif-link">View</a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty">No notifications available.</p>
+    {% endif %}
+  </div>
+
+  <!-- Crops Listed -->
+  <div class="card mt-4 animate-slide-up">
+    <h3 class="card-title">🌿 Your Crops</h3>
+    {% if crops %}
+      <ul class="crop-list">
+        {% for crop in crops %}
+          <li class="crop-item">
+            <strong>{{ crop.name }}</strong> – ₹{{ crop.price_per_kg }}/kg | Qty: {{ crop.quantity_available }} kg
+            <br><small class="listed-date">📅 {{ crop.listed_date }}</small>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty">You haven't listed any crops yet.</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

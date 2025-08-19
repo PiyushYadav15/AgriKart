@@ -1,0 +1,6 @@
+{% extends 'main.html' %}
+{% block content %}
+  <h2>🛒 Consumer Dashboard</h2>
+  <p>Welcome, {{ request.user.username }}</p>
+  <a href="{% url 'crop_list' %}">Browse Crops</a>
+{% endblock %}
