@@ -27,4 +27,19 @@ AgriKart is a Django-based Farmer-to-Consumer Marketplace that eliminates middle
 **Authentication**  
 - Django Auth (Signup, Login, Profile Management)  
 
----
+---RUN THIS PROJECT 
+2️⃣ Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate   # for Linux/Mac
+venv\Scripts\activate      # for Windows
+
+3️⃣ Install dependencies
+pip install -r requirements.txt
+
+4️⃣ Run migrations
+python manage.py makemigrations
+python manage.py migrate
+
+5️⃣ Start the server
+python manage.py runserver
+
