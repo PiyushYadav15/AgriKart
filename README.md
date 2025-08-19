@@ -39,7 +39,7 @@ It helps farmers sell crops without middlemen, while consumers get fresh produce
 
 👉 *(Add your project screenshots here!)*  
 
-![Home Page]"C:\Users\piyus\OneDrive\Pictures\Screenshots\Screenshot 2025-08-19 140939.png"  
+![Home Page]"(_) 
 ![Farmer Dashboard](https://via.placeholder.com/1000x500.png?text=Farmer+Dashboard)  
 ![Chat Feature](https://via.placeholder.com/1000x500.png?text=Real-time+Chat)  
 
