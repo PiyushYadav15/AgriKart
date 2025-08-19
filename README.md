@@ -17,12 +17,12 @@ AgriKart is a Django-based Farmer-to-Consumer Marketplace that eliminates middle
 - JavaScript  
 
 **Backend**  
+- Python
 - Django  
-- Django REST Framework  
-- Django Channels (WebSockets)  
+- 
 
 **Database**  
-- PostgreSQL / SQLite  
+-  SQLite  
 
 **Authentication**  
 - Django Auth (Signup, Login, Profile Management)  
