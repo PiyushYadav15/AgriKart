@@ -33,14 +33,5 @@ It helps farmers sell crops without middlemen, while consumers get fresh produce
 **Authentication**  
 - Django Auth (Signup, Login, Profile Management)  
 
----
-
-## 📸 Screenshots (Placeholders)
-
-👉 *(Add your project screenshots here!)*  
-
-![Home Page]"(_) 
-![Farmer Dashboard](https://via.placeholder.com/1000x500.png?text=Farmer+Dashboard)  
-![Chat Feature](https://via.placeholder.com/1000x500.png?text=Real-time+Chat)  
 
 ---
