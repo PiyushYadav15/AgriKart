@@ -119,11 +119,33 @@
     <p><strong>Status:</strong> 
       <span class="status-badge {{ order.status|lower }}">{{ order.status }}</span>
     </p>
+  {% endfor %}
+
+  {% for order in orders %}
+        <div class="order-card">
+            <p><strong>Crop:</strong> {{ order.crop.name }}</p>
+            <p><strong>Quantity:</strong> {{ order.quantity_ordered }}</p>
+            <p>
+                <strong>Status:</strong>
+                <span class="status-badge {{ order.status }}">
+                    {{ order.status }}
+                </span>
+            </p>
+
+            {% if order.payment_status == "pending" %}
+                <a href="{% url 'pay_order' order.id %}" class="pay-link">
+                    Pay Now
+                </a>
+            {% else %}
+                <span class="paid-text">Paid</span>
+            {% endif %}
+        </div>
 
   {% empty %}
-    <p class="no-orders">You have no orders yet.</p>
+        <p class="no-orders">You have no orders yet.</p>
   {% endfor %}
-</div>
+  </div>
+
 
 {% endblock %}
 

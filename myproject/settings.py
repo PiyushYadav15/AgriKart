@@ -90,6 +90,10 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 from pathlib import Path
 BASE_DIR=Path(__file__).resolve().parent.parent
 
+# Payment Gateway Configuration
+RAZORPAY_KEY_ID = "rzp_test_SExmwAfrEcju5y"
+RAZORPAY_KEY_SECRET = "OKflBHit2JE3z40ZBf8HyAGI"
+
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases

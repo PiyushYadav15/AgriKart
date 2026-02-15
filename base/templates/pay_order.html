@@ -1,0 +1,93 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .payment-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            width: 380px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .payment-card h2 {
+            color: #2ecc71;
+            margin-bottom: 10px;
+        }
+
+        .details {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .details p {
+            margin: 8px 0;
+            font-size: 15px;
+        }
+
+        .pay-btn {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .pay-btn:hover {
+            background: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+<div class="payment-card">
+    <h2>AgriKart Payment</h2>
+    <p>Secure demo payment gateway</p>
+
+    <div class="details">
+        <p><strong>Crop:</strong> {{ order.crop.name }}</p>
+        <p><strong>Quantity:</strong> {{ order.quantity_ordered }}</p>
+        <p><strong>Total Amount:</strong> ₹{{ order.total_price }}</p>
+    </div>
+
+    <button id="pay-btn" class="pay-btn">Pay Now</button>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+var options = {
+    "key": "{{ razorpay_key }}",
+    "amount": "{{ amount }}",
+    "currency": "INR",
+    "name": "AgriKart",
+    "description": "Crop Purchase",
+    "order_id": "{{ razorpay_order_id }}",
+    "handler": function (response){
+        window.location.href = "{% url 'payment_success' order.id %}";
+    }
+};
+
+var rzp1 = new Razorpay(options);
+
+document.getElementById("pay-btn").onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+};
+</script>
+
+
+{% endblock %}

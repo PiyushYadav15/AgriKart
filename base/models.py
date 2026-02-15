@@ -41,6 +41,18 @@ class Order(models.Model):
         default='pending',
         max_length=20
     )
+    payment_status = models.CharField(
+        max_length=20,
+        choices=[
+            ('pending', 'Pending'),
+            ('paid', 'Paid'),
+            ('failed', 'Failed')
+        ],
+        default='pending'
+    )
+
+    razorpay_order_id = models.CharField(max_length=100, blank=True, null=True)
+    razorpay_payment_id = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return f"{self.crop.name} - {self.consumer.username if self.consumer else 'Guest'} - {self.status}"

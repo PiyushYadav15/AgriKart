@@ -1,0 +1,73 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+   <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eafaf1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .success-card {
+            background: white;
+            padding: 40px;
+            border-radius: 14px;
+            text-align: center;
+            width: 420px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .check {
+            font-size: 60px;
+            color: #2ecc71;
+        }
+
+        h2 {
+            color: #2ecc71;
+            margin-top: 10px;
+        }
+
+        .info {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .info p {
+            margin: 6px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 18px;
+            background: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+<div class="success-card">
+    <div class="check">✔</div>
+    <h2>Payment Successful</h2>
+    <p>Your order has been placed successfully</p>
+
+    <div class="info">
+        <p><strong>Crop:</strong> {{ order.crop.name }}</p>
+        <p><strong>Quantity:</strong> {{ order.quantity_ordered }}</p>
+        <p><strong>Amount Paid:</strong> ₹{{ order.total_price }}</p>
+        <p><strong>Status:</strong> {{ order.payment_status|title }}</p>
+    </div>
+
+    <a href="{% url 'profile' %}" class="btn">Go to Profile</a>
+</div>
+{% endblock %}

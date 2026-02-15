@@ -34,4 +34,9 @@ urlpatterns=[
 
     # 🚚 Delivery Agent
     path('delivery-orders/', views.delivery_agent_orders, name='delivery_agent_orders'),
+
+    # Payment
+    path("pay/<int:order_id>/", views.pay_order, name="pay_order"),
+path("payment-success/<int:order_id>/", views.payment_success, name="payment_success"),
+
 ]

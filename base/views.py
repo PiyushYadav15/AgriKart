@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render,redirect,get_object_or_404 
 from .forms import CropForm,OrderForm,CategoryForm,OrderStatusForm
 from .models import Crop,Order,Category
 from django.utils import timezone
@@ -7,7 +7,9 @@ from decimal import Decimal
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from .models import Notification
-
+import razorpay
+from django.conf import settings
+from .models import Order
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
@@ -124,10 +126,10 @@ def crop_history(request):
     return render(request,'crop_history.html',{'data':data})
 @login_required
 def restore(request,pid):
-    data=get_object_or_404(Crop,id=pid,is_deleted=True)
+    data=get_object_or_404(Crop,id=pid)
     if request.method=='POST':
         data.is_deleted=False
-        data.deleted_at=None
+        data.deleted_at=timezone.now()
         data.save()
         messages.success(request, "Crop restored successfully.")
         return redirect ('crop_history')
@@ -203,7 +205,7 @@ def update_order_status(request, order_id):
     if request.method == 'POST':
         form = OrderStatusForm(request.POST, instance=order)
         if form.is_valid():
-            form.save()  # 🔥 This must be present!
+            form.save()  
             messages.success(request, "Order status updated successfully.")
             return redirect('farmer_orders')
     else:
@@ -213,8 +215,8 @@ def update_order_status(request, order_id):
 
 @login_required
 def farmer_dashboard(request):
-    crops = Crop.objects.filter(farmer=request.user)  # ✅ fixed
-    notifications = Notification.objects.filter(farmer=request.user).order_by('-created_at')  # ✅ fixed
+    crops = Crop.objects.filter(farmer=request.user) 
+    notifications = Notification.objects.filter(farmer=request.user).order_by('-created_at')
 
     return render(request, 'farmer_dashboard.html', {
         'crops': crops,
@@ -253,3 +255,39 @@ def order_detail(request, order_id):
         return render(request, 'unauthorized.html')
 
     return render(request, 'order_detail.html', {'order': order})
+
+# pAYMENT VIEWS
+@login_required
+def pay_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+
+    client = razorpay.Client(
+        auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+    )
+
+    razorpay_order = client.order.create({
+        "amount": int(order.total_price * 100),  # paise
+        "currency": "INR",
+        "payment_capture": 1
+    })
+
+    order.razorpay_order_id = razorpay_order['id']
+    order.save()
+
+    context = {
+        "order": order,
+        "razorpay_key": settings.RAZORPAY_KEY_ID,
+        "razorpay_order_id": razorpay_order['id'],
+        "amount": int(order.total_price * 100)
+    }
+
+    return render(request, "pay_order.html", context)
+
+def payment_success(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+
+    order.payment_status = "paid"
+    order.status = "packed"   # optional logic
+    order.save()
+
+    return render(request, "payment_success.html", {"order": order})
