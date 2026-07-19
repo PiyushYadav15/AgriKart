@@ -95,6 +95,12 @@ RAZORPAY_KEY_ID = "rzp_test_SExmwAfrEcju5y"
 RAZORPAY_KEY_SECRET = "OKflBHit2JE3z40ZBf8HyAGI"
 
 
+ALLOWED_HOSTS = [
+    "agrikart-2.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
+
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
