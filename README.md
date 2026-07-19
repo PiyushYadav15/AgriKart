@@ -19,6 +19,9 @@ Managed relational database schema using Django ORM and followed MVT architectur
 - 🔔 **Notifications** – Price alerts, updates, and reminders.  
 
 ---
+### Deployment
+- Render 
+https://agrikart-2.onrender.com/
 
 ## 🛠️ Tech Stack  
 
