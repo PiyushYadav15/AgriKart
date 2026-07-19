@@ -1,2 +1,8 @@
-gunicorn==26.0.0
-packaging==26.2
+Django==5.1.2
+gunicorn
+whitenoise
+Pillow
+razorpay
+python-decouple
+dj-database-url
+psycopg2-binary
