@@ -10,20 +10,20 @@ Designed order lifecycle management (Pending, Picked, Delivered) with consumer o
 Integrated Razorpay (Test Mode) payment gateway with dynamic order generation and server-side signature verification.
 
 Managed relational database schema using Django ORM and followed MVT architecture.(all code in Subranch)
-## ✨ Features  
+## Features  
 
-- 👨‍🌾 **Farmer Dashboard** – Add,edit, and delete crops. 
-- 🛒 **Consumer Dashboard** – Browse and buy fresh crops directly.  
-- 📂 **Category Filtering** – Farmers see only their own crops under categories.  
-- 🚫 **Empty States** – Shows *“No crops available”* if no crop is uploaded.   
-- 🔔 **Notifications** – Price alerts, updates, and reminders.  
+- **Farmer Dashboard** – Add,edit, and delete crops. 
+- **Consumer Dashboard** – Browse and buy fresh crops directly.  
+- **Category Filtering** – Farmers see only their own crops under categories.  
+-  **Empty States** – Shows *“No crops available”* if no crop is uploaded.   
+-  **Notifications** – Price alerts, updates, and reminders.  
 
 ---
 ### Deployment
 - Render 
 https://agrikart-2.onrender.com/
 
-## 🛠️ Tech Stack  
+## Tech Stack  
 
 **Frontend**  
 - TailwindCSS  
